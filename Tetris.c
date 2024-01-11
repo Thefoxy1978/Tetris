@@ -1,5 +1,5 @@
 #include "raylib.h"
-#include <time.h>
+#include "time.h"
 #include <string.h>
 #include "Tetris.h"
 #include <stdio.h>
@@ -315,6 +315,7 @@ void DeleteLines()
             memset(stage+offset,0,(STAGE_WIDTH-2)* sizeof(int));
             
             Score_ =+ Score_ + 100;
+            Velocity += 1.f;
 
             ResetLines(y);
         }
@@ -349,6 +350,8 @@ int main(int argc, char** argv, char** environ)
     float timeToMoveTetrominoDown = moveTetrominoDownTimer;
     int currentColor = GetRandomValue(0, 7);
 
+    DrawText(TextFormat("Integer value: %d", Score_), 0, 0, 10, BLACK);
+
     TraceLog(LOG_INFO, "Number of arguments : %d", argc);
 
     for(int i = 0; i < argc; i++)
@@ -368,11 +371,6 @@ int main(int argc, char** argv, char** environ)
 
     while(!WindowShouldClose())
     {
-        if(Score_ > 100)
-        {
-          Velocity += 1.f;
-        }
-
         timeToMoveTetrominoDown -= GetFrameTime() * Velocity; 
 
         if (IsKeyPressed(KEY_SPACE))
@@ -448,7 +446,7 @@ int main(int argc, char** argv, char** environ)
         }
 
         BeginDrawing();
-        ClearBackground(RED);
+        ClearBackground(BLACK);
 
         for(int y = 0; y < STAGE_HEIGHT; y++)
         {
