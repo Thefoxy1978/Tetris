@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include "CheckCollision.c"
 
-float Score_ = 0.f;
+int Score_ = 0;
 
 float Velocity = 1.f;
 
@@ -336,7 +336,6 @@ int main(int argc, char** argv, char** environ)
     int currentTetrominoX = tetrominoStartX;
     int currentTetrominoY = tetrominoStartY;
 
-
     time_t unixTime;
 
     time(&unixTime);
@@ -447,6 +446,8 @@ int main(int argc, char** argv, char** environ)
 
         BeginDrawing();
         ClearBackground(BLACK);
+        
+        DrawText(TextFormat("Score: %08i", Score_), 200, 80, 20, RED);
 
         for(int y = 0; y < STAGE_HEIGHT; y++)
         {
@@ -466,7 +467,6 @@ int main(int argc, char** argv, char** environ)
         
         drawTetromino(colorTypes[currentColor],startOffsetX, startOffsetY, currentTetrominoX, currentTetrominoY, tetrominoTypes[currentTetrominoType][currentRotation]);
 
-        
 
         EndDrawing();
     }
