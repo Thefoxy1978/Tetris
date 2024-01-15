@@ -314,7 +314,7 @@ void DeleteLines()
             const int offset = y * STAGE_WIDTH + 1;
             memset(stage+offset,0,(STAGE_WIDTH-2)* sizeof(int));
             
-            Score_ =+ Score_ + 100;
+            Score_ =+ Score_ + 500;
             Velocity += 1.f;
 
             ResetLines(y);
@@ -447,7 +447,7 @@ int main(int argc, char** argv, char** environ)
         BeginDrawing();
         ClearBackground(BLACK);
         
-        DrawText(TextFormat("Score: %08i", Score_), 200, 80, 20, RED);
+        DrawText(TextFormat("Score: %08i", Score_), 200, 50, 25, RED);
 
         for(int y = 0; y < STAGE_HEIGHT; y++)
         {
