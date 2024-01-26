@@ -6,10 +6,9 @@
 #include "CheckCollision.c"
 
 int Score_ = 0;
-
+int maxY = 0;
 float Velocity = 1.f;
 
-int maxY = 0;
 
 int stage[] = 
 {
@@ -294,7 +293,7 @@ void ResetLines(int startLineY)
     }   
 }
 
-void DeleteLines()
+void DeleteLines(Sound sound)
 {
     for (int y = 0; y < STAGE_HEIGHT - 1; y++)
     {
@@ -319,6 +318,8 @@ void DeleteLines()
             Score_ =+ Score_ + 500;
             Velocity += 1.f;
 
+            PlaySound(sound);
+
             ResetLines(y);
         }
     }   
@@ -328,12 +329,18 @@ void checkGameOver(int currentTetrominoX, int currentTetrominoY)
 {
     if(currentTetrominoY <= 0)  // Assuming that the top of the playzone is at y=0
     {
+        CloseAudioDevice(); 
         CloseWindow();
     }
 }
 
 int main(int argc, char** argv, char** environ)
-{
+{    
+
+    InitAudioDevice();
+    Sound fxTetris = LoadSound("Sound/1.wav");
+    Music fxMain = LoadMusicStream("Sound/2.wav");
+
     const int windowWidth = 600; 
     const int windowHeight = 700; 
 
@@ -351,6 +358,15 @@ int main(int argc, char** argv, char** environ)
     time(&unixTime);
 
     SetRandomSeed(unixTime);
+
+
+    if (!IsMusicStreamPlaying(fxMain))
+    {
+        StopMusicStream(fxMain);
+        PlayMusicStream(fxMain);
+    }
+    UpdateMusicStream(fxMain);
+
 
     int currentTetrominoType = GetRandomValue(0, 6);
     int currentRotation = 0;
@@ -374,13 +390,16 @@ int main(int argc, char** argv, char** environ)
         environ++;
     }
 
-    InitWindow(windowWidth, windowHeight, "Title");
+    InitWindow(windowWidth, windowHeight, "Tetris");
 
     SetTargetFPS(60);
 
     while(!WindowShouldClose())
     {
         timeToMoveTetrominoDown -= GetFrameTime() * Velocity; 
+
+        
+        
 
         if (IsKeyPressed(KEY_SPACE))
         {
@@ -444,7 +463,7 @@ int main(int argc, char** argv, char** environ)
                     }
                 }
                 
-                DeleteLines();
+                DeleteLines(fxTetris);
 
                 currentTetrominoX = tetrominoStartX;
                 currentTetrominoY = tetrominoStartY;
