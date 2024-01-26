@@ -9,6 +9,8 @@ int Score_ = 0;
 
 float Velocity = 1.f;
 
+int maxY = 0;
+
 int stage[] = 
 {
     1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
@@ -322,6 +324,14 @@ void DeleteLines()
     }   
 }
 
+void checkGameOver(int currentTetrominoX, int currentTetrominoY)
+{
+    if(currentTetrominoY <= 0)  // Assuming that the top of the playzone is at y=0
+    {
+        CloseWindow();
+    }
+}
+
 int main(int argc, char** argv, char** environ)
 {
     const int windowWidth = 600; 
@@ -427,12 +437,13 @@ int main(int argc, char** argv, char** environ)
                         if(tetromino[offset] == 1)
                         {
                             const int offset_stage = (y + currentTetrominoY) * STAGE_WIDTH + (x + currentTetrominoX);
-
                             stage[offset_stage] = currentColor+1;
                         }
+
+                        checkGameOver(currentTetrominoX, currentTetrominoY);
                     }
                 }
-
+                
                 DeleteLines();
 
                 currentTetrominoX = tetrominoStartX;
