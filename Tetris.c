@@ -327,7 +327,7 @@ void DeleteLines(Sound sound)
 
 void checkGameOver(int currentTetrominoX, int currentTetrominoY)
 {
-    if(currentTetrominoY <= 0)  // Assuming that the top of the playzone is at y=0
+    if(currentTetrominoY <= 0)  
     {
         CloseAudioDevice(); 
         CloseWindow();
