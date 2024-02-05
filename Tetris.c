@@ -360,13 +360,6 @@ int main(int argc, char** argv, char** environ)
     SetRandomSeed(unixTime);
 
 
-    if (!IsMusicStreamPlaying(fxMain))
-    {
-        StopMusicStream(fxMain);
-        PlayMusicStream(fxMain);
-    }
-    UpdateMusicStream(fxMain);
-
 
     int currentTetrominoType = GetRandomValue(0, 6);
     int currentRotation = 0;
@@ -398,7 +391,12 @@ int main(int argc, char** argv, char** environ)
     {
         timeToMoveTetrominoDown -= GetFrameTime() * Velocity; 
 
-        
+        if (!IsMusicStreamPlaying(fxMain))
+        {
+           StopMusicStream(fxMain);
+           PlayMusicStream(fxMain);
+        } 
+         UpdateMusicStream(fxMain);
         
 
         if (IsKeyPressed(KEY_SPACE))
